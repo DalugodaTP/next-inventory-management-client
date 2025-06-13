@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+/* Using data-theme to set dark mode dark */
+/* TODO remove later */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *)); 
 
 @layer base {
   html {
@@ -10,3 +12,6 @@
     @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100;
   }
 }
+
+/* Using tailwind.config.ts file to set dark mode */
+@config "../../tailwind.config.ts"
