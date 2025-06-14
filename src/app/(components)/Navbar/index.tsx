@@ -1,37 +1,33 @@
 'use client'
 
+import { useAppDispatch, useAppSelector } from '@/app/redux';
+import { setIsDarkMode, setIsSidebarCollapsed } from '@/state';
 import { Bell, Menu, Moon, Settings, Sun } from 'lucide-react'
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react'
 
 const Navbar = () => {
-    const [theme, setTheme] = useState('light');
+    const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        const savedTheme = localStorage.getItem('theme');
-        const systemPreferesDark = window.matchMedia('(preferes-color-scheme: dark)').matches;
+    const isSidebarCollapsed = useAppSelector(
+        (state) => state.global.isSidebarCollased
+    );
 
-        if (savedTheme) {
-            setTheme(savedTheme);
-        } else if (systemPreferesDark) {
-            setTheme('dark');
-        }
-    }, [])
+    const toggleSidebar = () => {
+        dispatch(setIsSidebarCollapsed(!isSidebarCollapsed))
+    }
 
-    useEffect(() => {
-        const root = document.documentElement;
-        root.classList.remove("dark", "light"); // clean slate
-        root.classList.add(theme === 'light' ? "dark" : "light");
-    }, [theme])
+    const isDarkMode = useAppSelector(
+        (state) => state.global.isDarkMode
+    );
 
     const toggleIsDark = () => {
-        setTheme(theme === 'light' ? 'dark' : 'light');
+        dispatch(setIsDarkMode(!isDarkMode));
     }
     return (
-        <div className='light flex justify-between items-center w-full mb-7'>
+        <div className='flex justify-between items-center w-full mb-7'>
             {/* LEFT SIDE  */}
             <div className='flex justify-between items-center gap-5'>
-                <button className='px-3 py-3 bg-gray-100 rounded-full hover:bg-blue-100' onClick={() => { }}>
+                <button className='px-3 py-3 bg-gray-100 rounded-full hover:bg-blue-100' onClick={toggleSidebar}>
                     <Menu className='w-4 h-4' />
                 </button>
             </div>
@@ -51,28 +47,28 @@ const Navbar = () => {
                     <div>
                         <button onClick={toggleIsDark}>
                             {
-                                theme === 'light' ?
+                                  isDarkMode ? 
                                     <Sun className='cursor-pointer text-gray-500' size={24} />
-                                    :
-                                    <Moon className='cursor-pointer text-gray-500' size={24} />
-                            }
+                                     : 
+                                     <Moon className='cursor-pointer text-gray-500' size={24} /> 
+                             } 
                         </button>
                     </div>
                     <div className='relative'>
-                            <Bell className='cursor-pointer text-gray-500 ' size={24}/>
-                            <span className='absolute -top-2 -right-2 inline-flex items-center justify-center px-[0.4rem] py-1 text-xs
+                        <Bell className='cursor-pointer text-gray-500 ' size={24} />
+                        <span className='absolute -top-2 -right-2 inline-flex items-center justify-center px-[0.4rem] py-1 text-xs
                              font-semibold leading-none text-red-100 bg-red-400 rounded-full'>
-                                3
-                             </span>
+                            3
+                        </span>
                     </div>
-                    <hr className='w-0 h-7 border border-solid border-l border-gray-300 mx-3 '/>
+                    <hr className='w-0 h-7 border border-solid border-l border-gray-300 mx-3 ' />
                     <div className='flex items-center gap-3 cursor-pointer'>
-                            <div className='w-9 h-9'>image</div>
-                            <span className='font-semibold'>Test User</span>
+                        <div className='w-9 h-9'>image</div>
+                        <span className='font-semibold'>Test User</span>
                     </div>
                 </div>
                 <Link href={"/settings"}>
-                     <Settings className='cursor-pointer text-gray-500' size={24}/>
+                    <Settings className='cursor-pointer text-gray-500' size={24} />
                 </Link>
             </div>
         </div>
