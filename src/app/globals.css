@@ -5,6 +5,17 @@
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *)); 
 
 @layer base {
+  @media (min-width: 768px) {
+    .custom-grid-rows {
+      grid-template-rows: repeat(8, 20vh);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .custom-grid-rows {
+      grid-template-rows: repeat(8, 7.5vh);
+    }
+  }
   html {
     @apply transition-colors duration-300;
   }
@@ -16,10 +27,3 @@
 /* Using tailwind.config.ts file to set dark mode */
 @config "../../tailwind.config.ts"
 
-@layer components {
-  @media (min-width: 768px) {
-    .custom-grid-rows {
-      grid-template-rows: repeat(8, 20vh);
-    }
-  }
-}
